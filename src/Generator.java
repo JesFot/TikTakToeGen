@@ -29,8 +29,6 @@ public class Generator
 			if (map[i][i] == c)
 				cnt++;
 		}
-		if (cnt == 0)
-			return false;
 		if (cnt >= Main.WIN_LEN)
 			return true;
 		for (int a = 0; a < Main.MAP_SIZE; ++a)
@@ -68,6 +66,8 @@ public class Generator
 	
 	public static void genSubs1(char map[][], Node parent, int placed)
 	{
+		if (placed >= Main.MAP_SIZE * Main.MAP_SIZE)
+			return;
 		for (int i = 0; i < Main.MAP_SIZE; ++i)
 		{
 			for (int j = 0; j < Main.MAP_SIZE; ++j)
@@ -89,6 +89,8 @@ public class Generator
 	
 	public static void genSubs2(char map[][], Node parent, int placed)
 	{
+		if (placed >= Main.MAP_SIZE * Main.MAP_SIZE)
+			return;
 		for (int i = 0; i < Main.MAP_SIZE; ++i)
 		{
 			for (int j = 0; j < Main.MAP_SIZE; ++j)

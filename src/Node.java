@@ -12,6 +12,7 @@ public class Node implements Serializable
 	
 	public boolean isEnd;
 	public int value;
+	public long bestId;
 	char map[][] = new char[Main.MAP_SIZE][];
 	
 	public List<Node> subNodes = new ArrayList<>();
@@ -29,6 +30,7 @@ public class Node implements Serializable
 		out.writeLong(id);
 		out.writeBoolean(isEnd);
 		out.writeInt(value);
+		out.writeLong(bestId);
 		out.writeObject(map);
 		out.writeObject(subNodes);
 	}
@@ -39,6 +41,7 @@ public class Node implements Serializable
 		id = in.readLong();
 		isEnd = in.readBoolean();
 		value = in.readInt();
+		bestId = in.readLong();
 		map = (char[][])in.readObject();
 		subNodes = (List<Node>)in.readObject();
 	}

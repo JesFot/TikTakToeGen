@@ -12,8 +12,8 @@ public class Main
 	public static final char FIRST = 1;
 	public static final char SECOND = 2;
 	
-	public static final int MAP_SIZE = 5;
-	public static final int WIN_LEN = 4;
+	public static final int MAP_SIZE = 3;
+	public static final int WIN_LEN = 3;
 	
 	private static final int SELF = FIRST;
 	
@@ -161,6 +161,10 @@ public class Main
 		if (node.isEnd == true)
 		{
 			ai.incrementAndGet();
+		}
+		else
+		{
+			System.out.printf("\t=> next best move: #%d\n", node.bestId);
 		}
 		for (Node nd : node.subNodes)
 		{

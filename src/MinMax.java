@@ -3,29 +3,45 @@ public class MinMax
 	private static void Min(Node node)
 	{
 		int value = 10;
+		long id = -1;
 		
 		for (Node subNodes : node.subNodes)
 		{
 			Max(subNodes);
-			value = Math.min(value, subNodes.value);
+			if (subNodes.value < value)
+			{
+				value = subNodes.value;
+				id = subNodes.id;
+			}
 		}
 		
-		if (value < 2 && value > -2)
+		if (id > -1)
+		{
 			node.value = value;
+			node.bestId = id;
+		}
 	}
 	
 	private static void Max(Node node)
 	{
 		int value = -10;
+		long id = -1;
 		
 		for (Node subNodes : node.subNodes)
 		{
 			Min(subNodes);
-			value = Math.max(value, subNodes.value);
+			if (subNodes.value > value)
+			{
+				value = subNodes.value;
+				id = subNodes.id;
+			}
 		}
 		
-		if (value < 2 && value > -2)
+		if (id > -1)
+		{
 			node.value = value;
+			node.bestId = id;
+		}
 	}
 	
 	public static void CalcMinMax(Node root, final int self)
