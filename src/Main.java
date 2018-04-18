@@ -24,7 +24,7 @@ public class Main
 	{
 		long time_0 = System.nanoTime();
 		
-		FileOutputStream fos_out = new FileOutputStream("output.log", false);
+		FileOutputStream fos_out = new FileOutputStream("output_s" + MAP_SIZE + "_w" + WIN_LEN + ".log", false);
 		PrintStream old_out = System.out;
 		PrintStream ps = new PrintStream(fos_out);
 		
@@ -89,7 +89,7 @@ public class Main
 		long time_12 = System.nanoTime();
 		
 		{
-			FileOutputStream fos = new FileOutputStream("nodesv2.bin");
+			FileOutputStream fos = new FileOutputStream("nodes_s" + MAP_SIZE + "_w" + WIN_LEN + ".bin");
 			ObjectOutputStream oos = new ObjectOutputStream(fos);
 
 			oos.writeObject(nd);

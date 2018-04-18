@@ -1,0 +1,20 @@
+Found node #0: value =  1; map [[ 0, 0 ], [ 0, 0 ]]
+	=> next best move: #1
+Found endpoint #1: value =  1; map [[ 1, 0 ], [ 0, 0 ]]
+Found endpoint #2: value =  1; map [[ 0, 1 ], [ 0, 0 ]]
+Found endpoint #3: value =  1; map [[ 0, 0 ], [ 1, 0 ]]
+Found endpoint #4: value =  1; map [[ 0, 0 ], [ 0, 1 ]]
+Total endpoint: 4
+Total nodes: 5
+
+Timer section :
+
+[Timer] Intialization: 0.000330273s
+[Timer] Node Generation: 0.000606026s
+[Timer] Finding end nodes: 0.000158816s
+[Timer] Victory search: 0.000008692s
+[Timer] Mini-Maxi application: 0.000447605s
+[Timer] Output to file: 0.027262858s
+[Timer] Writing: 0.017430941s
+
+[Timer] Overall timing: 0.046530444s

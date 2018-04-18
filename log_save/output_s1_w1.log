@@ -1,0 +1,17 @@
+Found node #0: value =  1; map [[ 0 ]]
+	=> next best move: #1
+Found endpoint #1: value =  1; map [[ 1 ]]
+Total endpoint: 1
+Total nodes: 2
+
+Timer section :
+
+[Timer] Intialization: 0.00034489s
+[Timer] Node Generation: 0.000645137s
+[Timer] Finding end nodes: 0.000177778s
+[Timer] Victory search: 0.000006321s
+[Timer] Mini-Maxi application: 0.000455112s
+[Timer] Output to file: 0.028770021s
+[Timer] Writing: 0.017468867s
+
+[Timer] Overall timing: 0.048143484s
