@@ -122,6 +122,18 @@ public class Generator
 		}
 	}
 	
+	public static void applyIsEnd(OptimisedNode node)
+	{
+		if (!node.hasChildren())
+		{
+			node.isEnd = true;
+		}
+		for (OptimisedNode nd : node.getChilds())
+		{
+			applyIsEnd(nd);
+		}
+	}
+	
 	public static void applyEndValue(Node node, final int self)
 	{
 		if (node.isEnd == true)
@@ -140,6 +152,29 @@ public class Generator
 			}
 		}
 		for (Node nd : node.subNodes)
+		{
+			applyEndValue(nd, self);
+		}
+	}
+	
+	public static void applyEndValue(OptimisedNode node, final int self)
+	{
+		if (node.isEnd)
+		{
+			if (WinChecker.checkWinningAll(node, Main.FIRST))
+			{
+				node.value = (self == Main.FIRST) ? 1 : -1;
+			}
+			else if (WinChecker.checkWinningAll(node, Main.SECOND))
+			{
+				node.value = (self == Main.FIRST) ? -1 : 1;
+			}
+			else
+			{
+				node.value = 0;
+			}
+		}
+		for (OptimisedNode nd : node.getChilds())
 		{
 			applyEndValue(nd, self);
 		}

@@ -1,26 +1,28 @@
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.io.PrintStream;
+import java.lang.management.ManagementFactory;
 import java.time.Duration;
 import java.util.concurrent.atomic.AtomicInteger;
 
+@SuppressWarnings({"squid:S00117", "squid:S106"})
 public class Main
 {
 	public static final char NONE = 0;
 	public static final char FIRST = 1;
 	public static final char SECOND = 2;
 	
-	public static final int MAP_SIZE = 3;
+	public static final int MAP_SIZE = 4;
 	public static final int WIN_LEN = 3;
+	
+	public static final int MAP_SIZE_POW = (Main.MAP_SIZE * Main.MAP_SIZE);
 	
 	private static final int SELF = FIRST;
 	
 	private static AtomicInteger ai = new AtomicInteger(0);
 	private static AtomicInteger ai_nd = new AtomicInteger(0);
 
-	public static void main(String[] args) throws FileNotFoundException, IOException, ClassNotFoundException
+	public static void main(String[] args) throws IOException
 	{
 		long time_0 = System.nanoTime();
 		
@@ -30,7 +32,12 @@ public class Main
 		
 		System.setOut(ps);
 		
-		Node nd;
+		for (int i = 0; i < ManagementFactory.getGarbageCollectorMXBeans().size(); ++i)
+		{
+			System.err.println("GarbageCollector N." + i + ": " + ManagementFactory.getGarbageCollectorMXBeans().get(i).getName());
+		}
+		
+		OptimisedNode nd;
 
 		long time_1 = System.nanoTime();
 		
@@ -39,7 +46,15 @@ public class Main
 		long time_2 = System.nanoTime();
 		
 		{
-			nd = Generator.generate();
+			try
+			{
+				nd = IterativeGenerator.generateOptimised();
+			}
+			catch (java.lang.OutOfMemoryError err)
+			{
+				System.err.println("Generated " + IterativeGenerator.getId() + " Nodes.");
+				throw err;
+			}
 		}
 		
 		long time_3 = System.nanoTime();
@@ -88,7 +103,7 @@ public class Main
 		
 		long time_12 = System.nanoTime();
 		
-		{
+		/*{
 			FileOutputStream fos = new FileOutputStream("nodes_s" + MAP_SIZE + "_w" + WIN_LEN + ".bin");
 			ObjectOutputStream oos = new ObjectOutputStream(fos);
 
@@ -98,17 +113,17 @@ public class Main
 			oos.close();
 			fos.flush();
 			fos.close();
-		}
+		}*/
 		
 		long time_13 = System.nanoTime();
 		
 		System.err.println("Writing nodes: Completed");
 		
-		System.out.printf("Total endpoint: %d\n", ai.get());
-		System.out.printf("Total nodes: %d\n", ai_nd.get());
+		System.out.printf("Total endpoint: %d%n", ai.get());
+		System.out.printf("Total nodes: %d%n", ai_nd.get());
 		System.err.println();
-		System.err.printf("[Treatment] Total endpoint: %d\n", ai.get());
-		System.err.printf("[Treatment] Total nodes: %d\n", ai_nd.get());
+		System.err.printf("[Treatment] Total endpoint: %d%n", ai.get());
+		System.err.printf("[Treatment] Total nodes: %d%n", ai_nd.get());
 		
 		Duration duration_ini = Duration.ofNanos(time_1 - time_0);
 		Duration duration_gen = Duration.ofNanos(time_3 - time_2);
@@ -120,28 +135,28 @@ public class Main
 		Duration duration_all = Duration.ofNanos(time_13 - time_0);
 
 		System.err.println();
-		System.err.printf("[Timer] Intialization: %s\n", humanReadableFormat(duration_ini));
-		System.err.printf("[Timer] Node Generation: %s\n", humanReadableFormat(duration_gen));
-		System.err.printf("[Timer] Finding end nodes: %s\n", humanReadableFormat(duration_end));
-		System.err.printf("[Timer] Victory search: %s\n", humanReadableFormat(duration_val));
-		System.err.printf("[Timer] Mini-Maxi application: %s\n", humanReadableFormat(duration_minmax));
-		System.err.printf("[Timer] Output to file: %s\n", humanReadableFormat(duration_prit));
-		System.err.printf("[Timer] Writing: %s\n", humanReadableFormat(duration_writ));
+		System.err.printf("[Timer] Intialization: %s%n", humanReadableFormat(duration_ini));
+		System.err.printf("[Timer] Node Generation: %s%n", humanReadableFormat(duration_gen));
+		System.err.printf("[Timer] Finding end nodes: %s%n", humanReadableFormat(duration_end));
+		System.err.printf("[Timer] Victory search: %s%n", humanReadableFormat(duration_val));
+		System.err.printf("[Timer] Mini-Maxi application: %s%n", humanReadableFormat(duration_minmax));
+		System.err.printf("[Timer] Output to file: %s%n", humanReadableFormat(duration_prit));
+		System.err.printf("[Timer] Writing: %s%n", humanReadableFormat(duration_writ));
 		System.err.println();
-		System.err.printf("[Timer] Overall timing: %s\n", humanReadableFormat(duration_all));
+		System.err.printf("[Timer] Overall timing: %s%n", humanReadableFormat(duration_all));
 
 		System.out.println();
 		System.out.println("Timer section :");
 		System.out.println();
-		System.out.printf("[Timer] Intialization: %s\n", humanReadableFormat(duration_ini));
-		System.out.printf("[Timer] Node Generation: %s\n", humanReadableFormat(duration_gen));
-		System.out.printf("[Timer] Finding end nodes: %s\n", humanReadableFormat(duration_end));
-		System.out.printf("[Timer] Victory search: %s\n", humanReadableFormat(duration_val));
-		System.out.printf("[Timer] Mini-Maxi application: %s\n", humanReadableFormat(duration_minmax));
-		System.out.printf("[Timer] Output to file: %s\n", humanReadableFormat(duration_prit));
-		System.out.printf("[Timer] Writing: %s\n", humanReadableFormat(duration_writ));
+		System.out.printf("[Timer] Intialization: %s%n", humanReadableFormat(duration_ini));
+		System.out.printf("[Timer] Node Generation: %s%n", humanReadableFormat(duration_gen));
+		System.out.printf("[Timer] Finding end nodes: %s%n", humanReadableFormat(duration_end));
+		System.out.printf("[Timer] Victory search: %s%n", humanReadableFormat(duration_val));
+		System.out.printf("[Timer] Mini-Maxi application: %s%n", humanReadableFormat(duration_minmax));
+		System.out.printf("[Timer] Output to file: %s%n", humanReadableFormat(duration_prit));
+		System.out.printf("[Timer] Writing: %s%n", humanReadableFormat(duration_writ));
 		System.out.println();
-		System.out.printf("[Timer] Overall timing: %s\n", humanReadableFormat(duration_all));
+		System.out.printf("[Timer] Overall timing: %s%n", humanReadableFormat(duration_all));
 		
 		System.setOut(old_out);
 
@@ -154,19 +169,44 @@ public class Main
 	public static void parse(Node node)
 	{
 		ai_nd.incrementAndGet();
-		System.out.printf("Found %s #%d: value = %2d; map %s\n",
+		System.out.printf("Found %s #%d: value = %2d; map %s%n",
 				(node.isEnd) ? "endpoint" : "node",
 				node.id, node.value,
 				mapToStr(node.map));
-		if (node.isEnd == true)
+		if (node.isEnd)
 		{
 			ai.incrementAndGet();
 		}
 		else
 		{
-			System.out.printf("\t=> next best move: #%d\n", node.bestId);
+			System.out.printf("\t=> next best move: #%d%n", node.bestId);
 		}
+		System.out.flush();
 		for (Node nd : node.subNodes)
+		{
+			parse(nd);
+		}
+	}
+	
+	public static void parse(OptimisedNode node)
+	{
+		ai_nd.incrementAndGet();
+		char[][] helperMap = WinChecker.getSampleMap();
+		node.fillStateMap(helperMap);
+		System.out.printf("Found %s #%d: value = %2d; map %s%n",
+				(node.isEnd) ? "endpoint" : "node",
+				node.id, node.value,
+				mapToStr(helperMap));
+		if (node.isEnd)
+		{
+			ai.incrementAndGet();
+		}
+		else
+		{
+			System.out.printf("\t=> next best move: #%d%n", node.bestId);
+		}
+		System.out.flush();
+		for (OptimisedNode nd : node.getChilds())
 		{
 			parse(nd);
 		}
@@ -179,7 +219,7 @@ public class Main
 	            .toLowerCase();
 	}
 	
-	public static String mapToStr(char map[][])
+	public static String mapToStr(char[][] map)
 	{
 		StringBuilder sb = new StringBuilder(3 + (5 + 3 * Main.MAP_SIZE) * Main.MAP_SIZE);
 		

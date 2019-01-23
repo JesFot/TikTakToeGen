@@ -13,15 +13,19 @@ public class Node implements Serializable
 	public boolean isEnd;
 	public int value;
 	public long bestId;
+	public int placed;
 	char map[][] = new char[Main.MAP_SIZE][];
 	
 	public List<Node> subNodes = new ArrayList<>();
 	
 	public Node(char map[][])
 	{
-		for (int i = 0; i < Main.MAP_SIZE; ++i)
+		if (map != null)
 		{
-			this.map[i] = Arrays.copyOf(map[i], Main.MAP_SIZE);
+			for (int i = 0; i < Main.MAP_SIZE; ++i)
+			{
+				this.map[i] = Arrays.copyOf(map[i], Main.MAP_SIZE);
+			}
 		}
 	}
 	
