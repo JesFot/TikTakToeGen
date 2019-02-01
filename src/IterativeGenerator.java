@@ -91,7 +91,7 @@ public class IterativeGenerator
 	
 	public static void generateNextMoves(Node node, char nextPlayer)
 	{
-		if (node.placed >= (Main.MAP_SIZE * Main.MAP_SIZE))
+		if (node.placed >= (Main.MAP_SIZE_POW))
 		{
 			return;
 		}
@@ -115,7 +115,7 @@ public class IterativeGenerator
 	{
 		char[][] helperMap = WinChecker.getSampleMap();
 		node.fillStateMap(helperMap);
-		if (node.placed >= (Main.MAP_SIZE * Main.MAP_SIZE))
+		if (node.placed >= (Main.MAP_SIZE_POW))
 		{
 			return;
 		}

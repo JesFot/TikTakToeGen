@@ -18,12 +18,13 @@ public class OptimisedNode implements Serializable
 	public OptimisedNode parent;
 	
 	private int pos = 0;
-	private OptimisedNode[] childs = new OptimisedNode[Main.MAP_SIZE_POW];
+	private OptimisedNode[] childs;
 	
 	public OptimisedNode(OptimisedNode parent, char player, int x, int y)
 	{
 		if (parent != null)
 		{
+			childs = new OptimisedNode[(Main.MAP_SIZE_POW - parent.placed)];
 			this.parent = parent;
 			this.placed = parent.placed + 1;
 			this.placeX = x;
@@ -34,7 +35,7 @@ public class OptimisedNode implements Serializable
 	
 	public void addChildNode(OptimisedNode child)
 	{
-		if (pos < 0 || pos >= Main.MAP_SIZE_POW)
+		if (pos < 0 || pos >= childs.length)
 		{
 			return;
 		}
